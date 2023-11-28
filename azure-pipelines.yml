@@ -30,7 +30,6 @@ stages:
               namespace: 'frontend-ns'
               command: 'apply'
               useConfigurationFile: true
-              configuration: './manifests'
               arguments: '-f *.yaml'
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
