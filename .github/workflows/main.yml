@@ -52,6 +52,11 @@ jobs:
            method: kubeconfig
            kubeconfig: ${{ secrets.KUBECONFIG_FILE }}
            context: twitter-aks # current-context from kubeconfig is used as default
+
+      - name: Run script file
+        run: |
+          kubectl delete -f manifests/deployment.yml
+        shell: bash
       - uses: Azure/k8s-create-secret@v1.1
         with:
           container-registry-url: ${{ secrets.ACR_NAME }}
