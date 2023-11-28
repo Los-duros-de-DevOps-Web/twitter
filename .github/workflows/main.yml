@@ -44,9 +44,14 @@ jobs:
           secrets: |
             "DATABASE_URL=${{ secrets.DATABASE_URL}}"
 
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
       - uses: Azure/k8s-deploy@v4
         with:
            namespace: 'frontend-ns'
            manifests: |
-              dir/manifests
+              manifests/*.yaml
            images: 'twitterclonecontainerregistry.azurecr.io/twitter:latest'
