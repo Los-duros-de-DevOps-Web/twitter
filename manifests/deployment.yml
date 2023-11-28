@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: twitter 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: twitter
+  template:
+    metadata:
+      labels:
+        app: twitter 
+    spec:
+      containers:
+        - name: twitter 
+          image: twitterclonecontainerregistry.azurecr.io/twitter
+          ports:
+          - containerPort: 3003
