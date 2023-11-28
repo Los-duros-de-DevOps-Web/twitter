@@ -41,7 +41,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.ACR_NAME }}/twitter-frontend:latest
+          tags: ${{ secrets.ACR_NAME }}/twitter:latest
           build-args: |
             "DATABASE_URL=${{ secrets.DATABASE_URL}}"
           secrets: |
