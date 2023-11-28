@@ -43,14 +43,10 @@ jobs:
             "DATABASE_URL=${{ secrets.DATABASE_URL}}"
           secrets: |
             "DATABASE_URL=${{ secrets.DATABASE_URL}}"
-      - name: Azure CD
-        uses: Azure/pipelines@v1.2
+
+      - uses: Azure/k8s-deploy@v4
         with:
-          # Fullyqualified URL to the Azure DevOps organization along with project name(eg, https://dev.azure.com/organization/project-name or https://server.example.com:8080/tfs/DefaultCollection/project-name)
-          azure-devops-project-url: ${{ secrets.AZURE_DEVOPS_LINK }}
-          # Name of the Azure Pipline to be triggered
-          azure-pipeline-name: Los-duros-de-DevOps-Web.twitter
-          # Set/Overwrite pipeline variables
-          # Paste personal access token of the user as value of secret variable:AZURE_DEVOPS_TOKEN
-          azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-          
+           namespace: 'frontend-ns'
+           manifests: |
+              dir/manifests
+           images: 'twitterclonecontainerregistry.azurecr.io/twitter:latest'
