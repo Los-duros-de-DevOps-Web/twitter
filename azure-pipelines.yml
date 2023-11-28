@@ -3,25 +3,9 @@
 # Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger:
-- main
 
 resources:
 - repo: self
-
-variables:
-
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '14999c3e-d46d-4711-b85f-1b811bbade8c'
-  imageRepository: 'twitter'
-  containerRegistry: 'twitterclonecontainerregistry.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
-  imagePullSecret: 'twitterclonecontainerregistry3941-auth'
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
 
 stages:
 - stage: Deploy
@@ -31,31 +15,18 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'LosdurosdeDevOpsWebtwitter.frontend-ns'
     strategy:
       runOnce:
         deploy:
           steps:
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
+          - task: Kubernetes@1
             inputs:
-              action: 'createSecret'
-              kubernetesServiceConnection: 'twitter-aks-frontend-ns'
+              connectionType: 'Azure Resource Manager'
+              azureSubscriptionEndpoint: 'Azure for Students(85bc962c-fc3c-40cd-b87c-1c35a1911048)'
+              azureResourceGroup: 'resource-group-twitter'
+              kubernetesCluster: 'twitter-aks'
+              useClusterAdmin: true
               namespace: 'frontend-ns'
+              command: 'apply'
               secretType: 'dockerRegistry'
-              secretName: '$(imagePullSecret)'
-              dockerRegistryEndpoint: 'twitterCloneContainerRegistry'
-
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
-            inputs:
-              action: deploy
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):latest
+              containerRegistryType: 'Azure Container Registry'
