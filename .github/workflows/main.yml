@@ -47,16 +47,11 @@ jobs:
           secrets: |
             "DATABASE_URL=${{ secrets.DATABASE_URL}}"
 
-      - uses: azure/login@v1
+      - uses: azure/k8s-set-context@v3
         with:
-           client-id: ${{ secrets.AZURE_CLIENT_ID }}
-           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - uses: azure/aks-set-context@v3
-        with:
-           resource-group: 'resource-group-twitter'
-           cluster-name: 'twitter-aks'
+           method: kubeconfig
+           kubeconfig: ${{ secrets.KUBECONFIG_FILE }}
+           context: current-context # current-context from kubeconfig is used as default
       - uses: Azure/k8s-create-secret@v1.1
         with:
           container-registry-url: ${{ secrets.ACR_NAME }}
