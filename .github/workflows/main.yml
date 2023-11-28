@@ -43,3 +43,14 @@ jobs:
             "DATABASE_URL=${{ secrets.DATABASE_URL}}"
           secrets: |
             "DATABASE_URL=${{ secrets.DATABASE_URL}}"
+      - name: Azure CD
+        uses: Azure/pipelines@v1.2
+        with:
+          # Fullyqualified URL to the Azure DevOps organization along with project name(eg, https://dev.azure.com/organization/project-name or https://server.example.com:8080/tfs/DefaultCollection/project-name)
+          azure-devops-project-url: https://dev.azure.com/usuario390804/twitter
+          # Name of the Azure Pipline to be triggered
+          azure-pipeline-name: azure-pipelines
+          # Set/Overwrite pipeline variables
+          # Paste personal access token of the user as value of secret variable:AZURE_DEVOPS_TOKEN
+          azure-devops-token: qikapbxblbowigfi4l3fyybafp4dd6avy642zmhfwb2mbg7prv4q
+          
