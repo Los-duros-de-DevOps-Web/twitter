@@ -51,7 +51,7 @@ jobs:
         with:
            method: kubeconfig
            kubeconfig: ${{ secrets.KUBECONFIG_FILE }}
-           context: current-context # current-context from kubeconfig is used as default
+           context: twitter-aks # current-context from kubeconfig is used as default
       - uses: Azure/k8s-create-secret@v1.1
         with:
           container-registry-url: ${{ secrets.ACR_NAME }}
