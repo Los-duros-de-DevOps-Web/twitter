@@ -52,5 +52,5 @@ jobs:
           azure-pipeline-name: azure-pipelines
           # Set/Overwrite pipeline variables
           # Paste personal access token of the user as value of secret variable:AZURE_DEVOPS_TOKEN
-          azure-devops-token: qikapbxblbowigfi4l3fyybafp4dd6avy642zmhfwb2mbg7prv4q
+          azure-devops-token: yyjz5ejhil7zw3ftjez7qxamxfe7bkgienty6u5jsunva7s7rhha
           
