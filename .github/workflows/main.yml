@@ -44,14 +44,27 @@ jobs:
           secrets: |
             "DATABASE_URL=${{ secrets.DATABASE_URL}}"
 
-      - name: Azure login
-        uses: azure/login@v1
+      - name: Set context
+        uses: Azure/aks-set-context@v1
         with:
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          
+            creds: '${{ secrets.AZURE_CREDENTIALS }}'
+            cluster-name: twitter-aks
+            resource-group: resource-group-twitter
+
+      - uses: Azure/k8s-create-secret@v1.1
+        with:
+          container-registry-url: ${{ secrets.ACR_NAME }}
+          container-registry-username: ${{ secrets.AZURE_ACR_USERNAME }}
+          container-registry-password: ${{ secrets.AZURE_ACR_PASSWORD }}
+          secret-name: demo-k8s-secret
+
       - uses: Azure/k8s-deploy@v4
         with:
-           namespace: 'frontend-ns'
-           manifests: |
-              manifests/*.yaml
-           images: 'twitterclonecontainerregistry.azurecr.io/twitter:latest'
+              action: deploy
+              manifests: |
+                 manifests/deployment.yml
+                 manifests/service.yml
+              images: |
+                 twitterclonecontainerregistry.azurecr.io/twitter:latest
+              imagepullsecrets: |
+                 demo-k8s-secret
