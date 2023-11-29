@@ -56,7 +56,7 @@ jobs:
 
       - name: Run script file
         run: |
-          kubectl delete -f manifests/deployment.yml
+          kubectl delete -f manifests/deployment.yml --namespace=frontend-ns
         shell: bash
       - uses: Azure/k8s-create-secret@v1.1
         with:
