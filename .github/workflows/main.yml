@@ -1,7 +1,7 @@
 name: CI/CD
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-# Comment
+
 permissions:
   id-token: write
 on:
